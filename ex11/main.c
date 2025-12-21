@@ -35,7 +35,9 @@ int main(int argc, char *argv[])
 {
     /* create pipe file descripters */
     /* ====================== write your code here ====================== */
-    int pfd[2];
+
+
+
     /* ================================================================== */
 
     char buf[BUF_SIZE];
@@ -48,11 +50,9 @@ int main(int argc, char *argv[])
 
     /* Create the pipe */
     /* ====================== write your code here ====================== */
-    if (pipe(pfd) == -1)
-    {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
+
+
+
     /* ================================================================== */
 
     switch (fork()) {
@@ -71,20 +71,8 @@ int main(int argc, char *argv[])
 
         /* Read data from pipe, echo on stdout */
         /* ====================== write your code here ====================== */
-        for (;;) {              
-            numRead = read(pfd[0], buf, BUF_SIZE);
-            if (numRead == -1)
-            {
-                perror("read");
-                exit(EXIT_FAILURE);
-            }
-            if (numRead == 0)
-                break;                      /* End-of-file */
-            if (write(STDOUT_FILENO, buf, numRead) != numRead) {
-                fprintf(stderr, "child - partial/failed write");
-                exit(EXIT_FAILURE);
-            }
-        }
+
+
 
         /* ================================================================== */
 
@@ -105,10 +93,9 @@ int main(int argc, char *argv[])
 
         /* write to pipe */
         /* ====================== write your code here ====================== */
-        if (write(pfd[1], argv[1], strlen(argv[1])) != strlen(argv[1])) {
-            fprintf(stderr, "parent - partial/failed write");
-            exit(EXIT_FAILURE);
-        }
+
+
+
         /* ================================================================== */
 
         if (close(pfd[1]) == -1)            /* Child will see EOF */
